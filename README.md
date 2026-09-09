@@ -13,7 +13,7 @@ VIBZ is a social-product-inspired frontend concept for short-lived, interest-bas
 - Notifications and profile management
 - Responsive layout for desktop and mobile
 
-## Run locally
+## Run locally 
 
 ```bash
 cd "D:/Downloads/ViBZ-main/ViBZ-main"
