@@ -431,7 +431,7 @@ function initTheme() {
 
 // ── VIEW SWITCHING ───────────────────────────────────────────────
 function showView(viewId) {
-  const views = ['home','discover','my-vibz','create'];
+  const views = ['home','discover','explore','my-vibz','create'];
   views.forEach(v => {
     const el = document.getElementById('view-' + v);
     if (el) el.style.display = (v === viewId) ? '' : 'none';
@@ -440,10 +440,14 @@ function showView(viewId) {
 
   // Update nav active states
   document.querySelectorAll('.nav-link[data-section]').forEach(a => {
-    a.classList.toggle('active', a.dataset.section === viewId);
+    const isActive = a.dataset.section === viewId;
+    a.classList.toggle('active', isActive);
+    a.setAttribute('aria-current', isActive ? 'page' : 'false');
   });
   document.querySelectorAll('.bottom-nav-item[data-section]').forEach(b => {
-    b.classList.toggle('active', b.dataset.section === viewId);
+    const isActive = b.dataset.section === viewId;
+    b.classList.toggle('active', isActive);
+    b.setAttribute('aria-current', isActive ? 'page' : 'false');
   });
 
   // Scroll to top
@@ -451,6 +455,7 @@ function showView(viewId) {
 
   // Render content for the view
   if (viewId === 'discover') renderDiscover();
+  if (viewId === 'explore')  renderExplore();
   if (viewId === 'my-vibz')  renderMyVibz();
 
   // Close mobile nav if open
@@ -480,8 +485,16 @@ function bindNav() {
     showView('home');
   });
 
+  // Explore nav + mobile nav entries
+  document.querySelectorAll('.nav-link[data-section="explore"]').forEach(el => {
+    el.addEventListener('click', e => {
+      e.preventDefault();
+      showView('explore');
+    });
+  });
+
   // Hero buttons
-  document.getElementById('exploreBtn').addEventListener('click', () => showView('discover'));
+  document.getElementById('exploreBtn').addEventListener('click', () => showView('explore'));
   document.getElementById('randomBtn').addEventListener('click', () => openRoom(state.vibz[Math.floor(Math.random() * state.vibz.length)]));
 
   // Discover from My VIBZ empty state
@@ -515,7 +528,8 @@ function bindNav() {
   // Profile avatar (header + bottom nav)
   const avatarBtn = document.getElementById('avatarBtn');
   if (avatarBtn) avatarBtn.addEventListener('click', openProfile);
-  document.getElementById('profileBnavBtn').addEventListener('click', openProfile);
+  const profileBnavBtn = document.getElementById('profileBnavBtn');
+  if (profileBnavBtn) profileBnavBtn.addEventListener('click', openProfile);
 
   // Theme toggle
   document.getElementById('theme').addEventListener('click', () => {
@@ -675,6 +689,39 @@ function renderDiscover() {
   renderTrending();
   renderNewVibz();
   renderAllGrid();
+}
+
+function renderExplore() {
+  const grid = document.getElementById('exploreGrid');
+  if (!grid) return;
+
+  const featured = [
+    { title: 'Late-night ideas', subtitle: 'Creative sparks', count: '42 rooms', glow: '#ff4f8b' },
+    { title: 'Campus energy', subtitle: 'College & life', count: '18 rooms', glow: '#1bd3df' },
+    { title: 'Build with friends', subtitle: 'Plans & challenges', count: '27 rooms', glow: '#a969ff' },
+    { title: 'AI & design', subtitle: 'Future-focused', count: '14 rooms', glow: '#ff8128' }
+  ];
+
+  grid.innerHTML = '';
+  featured.forEach((item, idx) => {
+    const tile = document.createElement('article');
+    tile.className = 'explore-tile';
+    tile.style.borderColor = item.glow + '55';
+    tile.innerHTML = `
+      <span class="explore-kicker">${idx + 1 < 10 ? '0' + (idx + 1) : idx + 1}</span>
+      <h3>${item.title}</h3>
+      <p>${item.subtitle}</p>
+      <span class="explore-count">${item.count}</span>
+    `;
+    tile.addEventListener('click', () => {
+      state.activeFilter = 'All';
+      showView('discover');
+      renderDiscover();
+      document.getElementById('allEyebrow').textContent = 'ALL VIBZ';
+      toast(`Explore: ${item.title}`, 'success');
+    });
+    grid.appendChild(tile);
+  });
 }
 
 function renderForYou() {

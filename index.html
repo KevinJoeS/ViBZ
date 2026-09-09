@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="vibz-polish.css">
 </head>
 <body>
+<a class="skip-link" href="#mainContent">Skip to content</a>
 
 <!-- ═══════════════════════════════════════
      ONBOARDING OVERLAY (first visit only)
@@ -44,6 +45,10 @@
   </nav>
 
   <div class="header-actions">
+    <div class="search-wrap" aria-label="Search VIBZ">
+      <span class="search-icon" aria-hidden="true">⌕</span>
+      <input class="header-search" id="headerSearch" type="search" placeholder="Search" aria-label="Search VIBZ" />
+    </div>
     <button class="auth-btn" id="loginBtn" aria-label="Log in to VIBZ">Log in</button>
     <button class="auth-btn auth-btn-secondary" id="registerBtn" aria-label="Register for VIBZ">Register</button>
     <button class="theme" id="theme" aria-label="Switch to dark mode">
@@ -54,6 +59,7 @@
       <span aria-hidden="true">🔔</span>
       <span class="notif-badge" id="notifBadge" aria-label="3 unread notifications">3</span>
     </button>
+    <button class="avatar" id="avatarBtn" type="button" aria-label="Open profile">KJ</button>
     <button class="hamburger" id="hamb" aria-label="Open navigation menu" aria-expanded="false">☰</button>
   </div>
 </header>
@@ -62,6 +68,7 @@
 <div class="mobile-nav" id="mobileNav" role="navigation" aria-label="Mobile navigation">
   <a href="#" class="nav-link mobile-nav-link" data-section="home">🏠 Home</a>
   <a href="#" class="nav-link mobile-nav-link" data-section="discover">🔍 Discover</a>
+  <a href="#" class="nav-link mobile-nav-link" data-section="explore">✨ Explore</a>
   <a href="#" class="nav-link mobile-nav-link" data-section="my-vibz">📁 My VIBZ</a>
   <a href="#" class="nav-link mobile-nav-link" data-section="create">✦ Create</a>
 </div>
@@ -69,7 +76,7 @@
 <!-- ═══════════════════════════════════════
      MAIN CONTENT
 ════════════════════════════════════════ -->
-<main id="mainContent">
+<main id="mainContent" tabindex="-1">
 
   <!-- ── HOME VIEW ─────────────────────── -->
   <div id="view-home" class="view active-view">
@@ -110,6 +117,49 @@
       <div class="principle"><b aria-hidden="true">01</b><h3>Temporary</h3><p>Rooms disappear. Your attention doesn't get trapped.</p></div>
       <div class="principle"><b aria-hidden="true">02</b><h3>Purposeful</h3><p>Every room begins with a reason to participate.</p></div>
       <div class="principle"><b aria-hidden="true">03</b><h3>Participatory</h3><p>Contribute to shape the room instead of chasing engagement.</p></div>
+    </section>
+  </div>
+
+  <!-- ── EXPLORE VIEW ───────────────────── -->
+  <div id="view-explore" class="view" style="display:none">
+    <section class="discover" id="explore" aria-label="Explore VIBZ communities">
+      <div class="section-top">
+        <div>
+          <div class="eyebrow">EXPLORE</div>
+          <h2>Find your next vibe.</h2>
+          <p>Browse communities, trends and rooms built around your interests.</p>
+        </div>
+      </div>
+      <div class="explore-grid" id="exploreGrid" aria-live="polite"></div>
+      <div class="discover-section">
+        <div class="discover-section-header">
+          <div class="eyebrow">COMMUNITY FEED</div>
+        </div>
+        <div class="trending-list">
+          <div class="trending-item">
+            <div class="trending-item-left">
+              <span class="trending-type-badge">PLAN</span>
+              <h3 class="trending-title">Sunrise cafe crawl</h3>
+            </div>
+            <div class="trending-stats">
+              <span class="trending-stat"><b>24</b> people</span>
+              <span class="trending-stat"><b>8</b> ideas</span>
+              <button class="trending-enter" type="button">Enter VIBZ ↗</button>
+            </div>
+          </div>
+          <div class="trending-item">
+            <div class="trending-item-left">
+              <span class="trending-type-badge">QUESTION</span>
+              <h3 class="trending-title">What’s your campus hack?</h3>
+            </div>
+            <div class="trending-stats">
+              <span class="trending-stat"><b>31</b> people</span>
+              <span class="trending-stat"><b>12</b> replies</span>
+              <button class="trending-enter" type="button">Enter VIBZ ↗</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   </div>
 
