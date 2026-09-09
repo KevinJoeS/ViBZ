@@ -1,0 +1,327 @@
+/* ================================================================
+   VIBZ V2 — Polish Layer
+   Premium micro-interactions, enhanced card aesthetics,
+   room visual identity, and transition refinements.
+================================================================ */
+
+/* ── SCROLL ──────────────────────────────────────────────────── */
+html { scroll-behavior: smooth; }
+
+/* ── NAV LINKS ───────────────────────────────────────────────── */
+.main-nav .nav-link { transition: color .25s, border-color .25s, transform .2s; }
+.main-nav .nav-link:hover { transform: translateY(-1px); }
+
+/* ── THEME TOGGLE ────────────────────────────────────────────── */
+.theme:hover { background: #fff; border-color: #ff4f8b; }
+body.dark .theme:hover { background: #201d29; }
+
+/* ── SPARK CARDS — premium editorial treatment ───────────────── */
+.spark {
+  border: 1px solid transparent;
+  transition: transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .45s, filter .45s;
+}
+
+/* Colored type tags per card color cycle */
+.spark:nth-child(6n+1) .spark-type { background: #ff3fa4; }
+.spark:nth-child(6n+2) .spark-type { background: #a969ff; }
+.spark:nth-child(6n+3) .spark-type { background: #1bd3df; color: #0a2e32; }
+.spark:nth-child(6n+4) .spark-type { background: #92eb42; color: #142800; }
+.spark:nth-child(6n+5) .spark-type { background: #ffda27; color: #2a2000; }
+.spark:nth-child(6n)   .spark-type { background: #ff8128; color: #2a1000; }
+
+/* Energy badge colors */
+.spark:nth-child(6n+1) .spark-energy { background: #fff0f6; color: #e83179; border: 1px solid #ffb3d1; }
+.spark:nth-child(6n+2) .spark-energy { background: #f3eeff; color: #7c3aed; border: 1px solid #c4b5fd; }
+.spark:nth-child(6n+3) .spark-energy { background: #e0fafb; color: #0e7490; border: 1px solid #67e8f9; }
+.spark:nth-child(6n+4) .spark-energy { background: #eefce8; color: #166534; border: 1px solid #86efac; }
+.spark:nth-child(6n+5) .spark-energy { background: #fffbeb; color: #92400e; border: 1px solid #fcd34d; }
+.spark:nth-child(6n)   .spark-energy { background: #fff4ec; color: #9a3412; border: 1px solid #fdba74; }
+
+body.dark .spark:nth-child(6n+1) .spark-energy { background: #2a0d19; border-color: #6e1e38; color: #ff7db8; }
+body.dark .spark:nth-child(6n+2) .spark-energy { background: #1a1030; border-color: #5b3fa0; color: #c4b5fd; }
+body.dark .spark:nth-child(6n+3) .spark-energy { background: #001e23; border-color: #1e6b78; color: #67e8f9; }
+body.dark .spark:nth-child(6n+4) .spark-energy { background: #0a1e06; border-color: #1e6b1e; color: #86efac; }
+body.dark .spark:nth-child(6n+5) .spark-energy { background: #211800; border-color: #7a5a00; color: #fcd34d; }
+body.dark .spark:nth-child(6n)   .spark-energy { background: #1e0c00; border-color: #7a3012; color: #fdba74; }
+
+/* Card corner accent */
+.spark:before {
+  content: "";
+  position: absolute;
+  right: -1px; top: -1px;
+  width: 64px; height: 64px;
+  border-radius: 0 24px 0 64px;
+  opacity: .85;
+  transition: width .45s ease, height .45s ease, opacity .4s;
+  pointer-events: none;
+}
+
+.spark:nth-child(6n+1):before { background: #652252; }
+.spark:nth-child(6n+2):before { background: #4b327c; }
+.spark:nth-child(6n+3):before { background: #165868; }
+.spark:nth-child(6n+4):before { background: #3e5e2b; }
+.spark:nth-child(6n+5):before { background: #664520; }
+.spark:nth-child(6n):before   { background: #693d22; }
+
+.spark:hover:before { width: 82px; height: 82px; opacity: 1; }
+
+/* Hover shimmer overlay */
+.spark:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(125deg, #fff6, transparent 45%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .4s;
+}
+
+.spark:hover:after { opacity: 1; }
+
+/* Enter button arrow motion on hover */
+.spark-enter b { transition: transform .3s ease; }
+.spark:hover .spark-enter b { transform: translate(3px, -2px); }
+
+/* ── BUTTONS — micro-interactions ────────────────────────────── */
+button,
+.primary, .ghost, .outline,
+.trending-enter, .tag-row button,
+.reply button, .connect-btn, .my-vibz-tab, .filter {
+  transition: transform .28s ease, background-color .28s ease,
+              border-color .28s ease, box-shadow .28s ease, color .28s ease;
+}
+
+button:active { transform: translateY(0) scale(.97) !important; }
+
+/* ── NOTIFICATION PANEL animation ────────────────────────────── */
+.notif-panel { animation: slideInRight .28s cubic-bezier(.2,.8,.2,1); }
+
+/* ── MODAL ENTRANCE ──────────────────────────────────────────── */
+.modal-overlay .profile-modal-card,
+.modal-overlay .edit-profile-card,
+.modal-overlay .invite-card {
+  animation: modalIn .3s cubic-bezier(.2,.8,.2,1);
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(.95) translateY(12px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ── ROOM BOARD items float animation ────────────────────────── */
+@keyframes thoughtFloat {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-7px); }
+}
+
+/* Board dashed connector lines */
+.board-item:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  height: 1px;
+  border-top: 1px dashed #a98bed7a;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.board-item:nth-child(1):before { left: 100%; width: 170px; transform: rotate(22deg); transform-origin: left center; }
+.board-item:nth-child(2):before { right: 100%; width: 170px; transform: rotate(-22deg); transform-origin: right center; }
+.board-item:nth-child(3):before { left: 100%; width: 180px; transform: rotate(-22deg); transform-origin: left center; }
+.board-item:nth-child(4):before { right: 100%; width: 180px; transform: rotate(22deg); transform-origin: right center; }
+.board-item:nth-child(n+5):before { display: none; }
+
+body.dark .board-item:before { border-color: #7c4dff55; }
+
+/* Node-reply connector lines */
+.board-item.node-reply:before { border-color: #a36cffa8; width: 140px; }
+
+/* ── FOR YOU badge glow ───────────────────────────────────────── */
+.for-you-badge {
+  animation: subtleGlow 3s ease-in-out infinite;
+}
+
+@keyframes subtleGlow {
+  0%, 100% { box-shadow: 0 0 0 0 #ff4f8b00; }
+  50%       { box-shadow: 0 0 8px 2px #ff4f8b22; }
+}
+
+/* ── TRENDING ITEMS — enter animation ────────────────────────── */
+.trending-item {
+  animation: slideInUp .4s ease both;
+}
+
+.trending-item:nth-child(2) { animation-delay: .08s; }
+.trending-item:nth-child(3) { animation-delay: .16s; }
+.trending-item:nth-child(4) { animation-delay: .24s; }
+
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── INTEREST CHIP press effect ──────────────────────────────── */
+.interest-chip {
+  transition: transform .2s ease, background .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease;
+}
+
+.interest-chip.selected { box-shadow: 0 4px 14px #ff4f8b30; }
+.interest-chip:active { transform: scale(.95); }
+
+/* ── PARTICIPANT AVATAR ───────────────────────────────────────── */
+.participant-avatar {
+  transition: transform .2s ease, box-shadow .2s ease, z-index 0s;
+}
+
+/* ── REACTION BUTTON pop ─────────────────────────────────────── */
+@keyframes reactPop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.4); }
+  70%  { transform: scale(.9); }
+  100% { transform: scale(1.1); }
+}
+
+.reaction-btn.reacted { animation: reactPop .45s ease; }
+
+/* ── TOAST SLIDE ─────────────────────────────────────────────── */
+.toast {
+  transition: transform .35s cubic-bezier(.2,.8,.2,1), opacity .35s;
+}
+
+/* ── MY VIBZ TAB indicator ───────────────────────────────────── */
+.my-vibz-tab { position: relative; }
+.my-vibz-tab:after {
+  content: "";
+  position: absolute;
+  bottom: -1px; left: 50%; right: 50%;
+  height: 2px;
+  background: #ff4f8b;
+  transition: left .3s ease, right .3s ease;
+}
+.my-vibz-tab.active:after { left: 0; right: 0; }
+
+/* ── CONNECT BUTTON glow on confirm ─────────────────────────── */
+.connect-btn.connected {
+  box-shadow: 0 4px 18px #ff4f8b35;
+  animation: connectPulse .5s ease;
+}
+
+@keyframes connectPulse {
+  0%   { box-shadow: 0 0 0 0 #ff4f8b55; }
+  50%  { box-shadow: 0 0 0 12px #ff4f8b15; }
+  100% { box-shadow: 0 4px 18px #ff4f8b35; }
+}
+
+/* ── CARD HOVER — save button reveal ────────────────────────── */
+.card-icon-btn {
+  opacity: .7;
+  transition: opacity .2s, transform .2s, border-color .2s, color .2s;
+}
+.spark:hover .card-icon-btn { opacity: 1; }
+
+/* ── PROFILE STATS number pop ────────────────────────────────── */
+.profile-stat strong {
+  display: block;
+  font: 700 28px "Space Grotesk";
+  transition: transform .2s;
+}
+
+.profile-stat:hover strong { transform: scale(1.08); }
+
+/* ── SITE FOOTER ─────────────────────────────────────────────── */
+.site-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin: 0 3%;
+  padding: 34px 3% 42px;
+  border-top: 1px solid #17151d14;
+  color: #6d6872;
+  font-size: 12px;
+}
+
+.site-footer div { display: flex; align-items: center; gap: 14px; }
+.site-footer strong { color: #17151d; font: 800 16px "Space Grotesk"; letter-spacing: .06em; }
+.site-footer span { letter-spacing: .02em; }
+body.dark .site-footer { border-color: #fff2; color: #b8b1c1; }
+body.dark .site-footer strong { color: #f8f5ff; }
+
+@media (max-width: 640px) {
+  .site-footer { align-items: flex-start; flex-direction: column; padding-inline: 0; }
+  .site-footer div { align-items: flex-start; flex-direction: column; gap: 6px; }
+}
+
+/* ── DARK MODE CARD TREATMENT ────────────────────────────────── */
+body.dark .spark:before { opacity: .7; }
+
+/* ── SEARCH CLEAR animation ──────────────────────────────────── */
+.discover-search-input { transition: border-color .25s, box-shadow .25s, width .3s; }
+
+/* ── SECTION FADE IN on view switch ─────────────────────────── */
+.view {
+  animation: viewFadeIn .3s ease;
+}
+
+@keyframes viewFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── EMPTY STATE icon pulse ──────────────────────────────────── */
+.empty-icon {
+  animation: emptyPulse 3s ease-in-out infinite;
+}
+
+@keyframes emptyPulse {
+  0%, 100% { transform: scale(1); opacity: .6; }
+  50%       { transform: scale(1.15); opacity: 1; }
+}
+
+/* ── ROOM MODAL CENTER CORE ──────────────────────────────────── */
+.room-board:before {
+  z-index: 1;
+  animation: vibzCore 4s ease-in-out infinite;
+}
+
+@keyframes vibzCore {
+  0%, 100% { box-shadow: 0 0 0 10px #8b5cf614, 0 0 0 21px #8b5cf609, 0 18px 35px #17151d1c; }
+  50%       { box-shadow: 0 0 0 16px #8b5cf620, 0 0 0 29px #8b5cf60d, 0 18px 35px #17151d1c; }
+}
+
+/* ── BUILD PANEL smooth expand ───────────────────────────────── */
+.build-panel, .reply-panel, .react-panel {
+  animation: panelOpen .2s ease;
+}
+
+@keyframes panelOpen {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── MOBILE responsive card polish ──────────────────────────── */
+@media (max-width: 640px) {
+  .spark { min-height: 250px; }
+  .spark h3 { font-size: 20px; }
+  .trending-stats { gap: 10px; }
+}
+
+@media (max-width: 700px) {
+  .modal-card { padding-inline: 18px !important; }
+  .room-board { height: calc(100vh - 250px); margin-inline: -8px; }
+  .board-item { width: 165px; font-size: 12px !important; }
+  .board-item:nth-child(1) { left: 4%; top: 22%; }
+  .board-item:nth-child(2) { right: 2%; top: 29%; }
+  .board-item:nth-child(3) { left: 3%; top: 62%; }
+  .board-item:nth-child(4) { right: 2%; top: 68%; }
+  .board-item:nth-child(1):before, .board-item:nth-child(2):before { width: 100px; }
+  .board-item:nth-child(3):before, .board-item:nth-child(4):before { width: 110px; }
+  .board-item.node-reply { width: 155px; }
+  .board-item.node-reply[data-parent="0"] { left: 31%; top: 12%; }
+  .board-item.node-reply[data-parent="1"] { left: 47%; top: 12%; }
+  .board-item.node-reply[data-parent="2"] { left: 28%; top: 53%; }
+  .board-item.node-reply[data-parent="3"] { left: 48%; top: 53%; }
+  .reply { width: calc(100% - 24px); }
+  .reply button { padding-inline: 12px !important; font-size: 10px !important; }
+}

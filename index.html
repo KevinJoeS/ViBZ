@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="VIBZ — Discover temporary social rooms built around ideas, questions and moments. Don't follow people. Follow the vibe.">
+<meta name="theme-color" content="#ff4f8b">
+<title>VIBZ — Social, Reimagined</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="vibz-polish.css">
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     ONBOARDING OVERLAY (first visit only)
+════════════════════════════════════════ -->
+<div class="onboarding-overlay" id="onboarding" role="dialog" aria-modal="true" aria-label="Welcome to VIBZ" style="display:none">
+  <div class="onboarding-card">
+    <div class="onboarding-brand">VIBZ ✦</div>
+    <h1 class="onboarding-title">What is your vibe?</h1>
+    <p class="onboarding-sub">Pick the things you care about and we'll shape a feed around your interests.</p>
+    <div class="interest-grid" id="interestGrid" role="group" aria-label="Select your interests"></div>
+    <button class="primary onboarding-cta" id="buildVibz" aria-label="Build my personalized VIBZ feed">Show me my VIBZ</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     HEADER
+════════════════════════════════════════ -->
+<header role="banner">
+  <a class="brand" href="#" id="homeBrand" aria-label="VIBZ home">
+    <span class="brand-mark">✦</span>VIBZ
+  </a>
+
+  <nav class="main-nav" role="navigation" aria-label="Main navigation">
+    <a href="#" class="nav-link" data-section="home">Home</a>
+    <a href="#" class="nav-link active" data-section="discover">Discover</a>
+    <a href="#" class="nav-link" data-section="explore">Explore</a>
+    <a href="#" class="nav-link" data-section="my-vibz">My VIBZ</a>
+    <a href="#" class="nav-link" data-section="create">Create</a>
+  </nav>
+
+  <div class="header-actions">
+    <button class="auth-btn" id="loginBtn" aria-label="Log in to VIBZ">Log in</button>
+    <button class="auth-btn auth-btn-secondary" id="registerBtn" aria-label="Register for VIBZ">Register</button>
+    <button class="theme" id="theme" aria-label="Switch to dark mode">
+      <span class="theme-icon" aria-hidden="true">☀</span>
+      <span class="theme-label">Day</span>
+    </button>
+    <button class="notif-btn" id="notifBtn" aria-label="Open notifications">
+      <span aria-hidden="true">🔔</span>
+      <span class="notif-badge" id="notifBadge" aria-label="3 unread notifications">3</span>
+    </button>
+    <button class="hamburger" id="hamb" aria-label="Open navigation menu" aria-expanded="false">☰</button>
+  </div>
+</header>
+
+<!-- Mobile dropdown nav -->
+<div class="mobile-nav" id="mobileNav" role="navigation" aria-label="Mobile navigation">
+  <a href="#" class="nav-link mobile-nav-link" data-section="home">🏠 Home</a>
+  <a href="#" class="nav-link mobile-nav-link" data-section="discover">🔍 Discover</a>
+  <a href="#" class="nav-link mobile-nav-link" data-section="my-vibz">📁 My VIBZ</a>
+  <a href="#" class="nav-link mobile-nav-link" data-section="create">✦ Create</a>
+</div>
+
+<!-- ═══════════════════════════════════════
+     MAIN CONTENT
+════════════════════════════════════════ -->
+<main id="mainContent">
+
+  <!-- ── HOME VIEW ─────────────────────── -->
+  <div id="view-home" class="view active-view">
+
+    <section class="hero" id="home" aria-label="VIBZ hero">
+      <div class="hero-copy">
+        <div class="pill"><span aria-hidden="true"></span> SOCIAL, REIMAGINED</div>
+        <h1>Don't follow<br>people.<br><em>Follow the vibe.</em></h1>
+        <p>VIBZ turns ideas, questions and spontaneous plans into temporary social rooms. Jump into something interesting, add your thought, and move on.</p>
+        <div class="hero-buttons">
+          <button class="primary" id="exploreBtn">Find a VIBZ <b aria-hidden="true">↗</b></button>
+          <button class="ghost" id="randomBtn">Surprise me ✦</button>
+        </div>
+        <div class="hero-proof" aria-label="VIBZ stats">
+          <div><strong>2.4k</strong><span>VIBZ today</span></div>
+          <div><strong>86</strong><span>rooms alive</span></div>
+          <div><strong>∞</strong><span>ways to connect</span></div>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="burst">✦</div>
+        <div class="orbit o1"></div>
+        <div class="orbit o2"></div>
+        <div class="float-card fc1"><span>QUESTION</span><b>What's a skill<br>everyone should learn?</b><small>42 VIBZ</small></div>
+        <div class="float-card fc2"><span>PLAN</span><b>Sunrise ride<br>this Sunday?</b><small>18 joined</small></div>
+        <div class="float-card fc3"><span>IDEA</span><b>Build something<br>weird tonight.</b><small>31 VIBZ</small></div>
+      </div>
+    </section>
+
+    <div class="vibe-row-wrap" id="userVibeRowWrap" style="display:none">
+      <div class="vibe-row-header">
+        <span class="eyebrow">YOUR VIBE</span>
+      </div>
+      <div class="vibe-row" id="userVibeRow" aria-live="polite"></div>
+    </div>
+
+    <section class="principles" id="principles" aria-label="VIBZ principles">
+      <div class="principle"><b aria-hidden="true">01</b><h3>Temporary</h3><p>Rooms disappear. Your attention doesn't get trapped.</p></div>
+      <div class="principle"><b aria-hidden="true">02</b><h3>Purposeful</h3><p>Every room begins with a reason to participate.</p></div>
+      <div class="principle"><b aria-hidden="true">03</b><h3>Participatory</h3><p>Contribute to shape the room instead of chasing engagement.</p></div>
+    </section>
+  </div>
+
+  <!-- ── DISCOVER VIEW ──────────────────── -->
+  <div id="view-discover" class="view" style="display:none">
+    <section class="discover" id="discover" aria-label="Discover VIBZ">
+
+      <div class="section-top">
+        <div>
+          <div class="eyebrow">DISCOVER</div>
+          <h2>What's vibing?</h2>
+          <p>Discover conversations, ideas and moments worth joining.</p>
+        </div>
+      </div>
+
+      <!-- Search -->
+      <div class="discover-search-wrap">
+        <label for="discoverSearch" class="sr-only">Search VIBZ</label>
+        <input type="search" id="discoverSearch" class="discover-search-input"
+               placeholder="Search VIBZ, ideas, questions..." aria-label="Search VIBZ, ideas, questions">
+        <span class="discover-search-icon" aria-hidden="true">⌕</span>
+      </div>
+
+      <!-- Energy filters -->
+      <div class="filters" id="filters" role="group" aria-label="Filter by energy type"></div>
+
+      <!-- Search results (hidden by default) -->
+      <div id="searchResults" class="discover-section" style="display:none">
+        <div class="discover-section-header">
+          <div class="eyebrow">SEARCH RESULTS</div>
+          <span id="searchResultCount" class="results-count"></span>
+        </div>
+        <div class="spark-grid" id="searchGrid"></div>
+        <p id="noResults" class="no-results" style="display:none" role="alert">
+          No VIBZ found. Try a different search.
+        </p>
+      </div>
+
+      <!-- FOR YOU -->
+      <div id="forYouSection" class="discover-section">
+        <div class="discover-section-header">
+          <div class="eyebrow">FOR YOU</div>
+          <span class="for-you-reason" id="forYouReason"></span>
+        </div>
+        <div class="spark-grid" id="forYouGrid"></div>
+      </div>
+
+      <!-- TRENDING NOW -->
+      <div class="discover-section" id="trendingSection">
+        <div class="discover-section-header">
+          <div class="eyebrow">🔥 TRENDING NOW</div>
+        </div>
+        <div class="trending-list" id="trendingList"></div>
+      </div>
+
+      <!-- NEW VIBZ -->
+      <div class="discover-section" id="newVibzSection">
+        <div class="discover-section-header">
+          <div class="eyebrow">NEW VIBZ</div>
+        </div>
+        <div class="spark-grid" id="newVibzGrid"></div>
+      </div>
+
+      <!-- ALL / FILTERED -->
+      <div class="discover-section" id="allVibzSection">
+        <div class="discover-section-header">
+          <div class="eyebrow" id="allEyebrow">ALL VIBZ</div>
+          <button class="outline small" id="allBtn" aria-label="View all VIBZ">View everything →</button>
+        </div>
+        <div class="spark-grid" id="sparkGrid"></div>
+      </div>
+
+    </section>
+  </div>
+
+  <!-- ── MY VIBZ VIEW ───────────────────── -->
+  <div id="view-my-vibz" class="view" style="display:none">
+    <section class="my-vibz-section" id="my-vibz" aria-label="My VIBZ">
+      <div class="section-top">
+        <div>
+          <div class="eyebrow">MY VIBZ</div>
+          <h2>Your VIBZ universe.</h2>
+          <p>Everything you've joined, created, or saved.</p>
+        </div>
+      </div>
+      <div class="my-vibz-tabs" role="tablist" aria-label="My VIBZ sections">
+        <button class="my-vibz-tab active" data-tab="joined" role="tab" id="tab-joined" aria-selected="true" aria-controls="myVibzContent">Joined</button>
+        <button class="my-vibz-tab" data-tab="created" role="tab" id="tab-created" aria-selected="false" aria-controls="myVibzContent">Created</button>
+        <button class="my-vibz-tab" data-tab="saved" role="tab" id="tab-saved" aria-selected="false" aria-controls="myVibzContent">Saved</button>
+      </div>
+      <div id="myVibzContent" class="spark-grid" role="tabpanel"></div>
+      <div id="myVibzEmpty" class="my-vibz-empty" style="display:none">
+        <div class="empty-icon" aria-hidden="true">✦</div>
+        <p class="empty-message">Nothing here yet.</p>
+        <p class="empty-sub" id="emptySubText">Find a VIBZ worth joining.</p>
+        <button class="primary" id="discoverFromEmpty">Discover VIBZ →</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- ── CREATE VIEW ────────────────────── -->
+  <div id="view-create" class="view" style="display:none">
+    <section class="create" id="create" aria-label="Create a VIBZ">
+      <div class="create-intro">
+        <div class="eyebrow">YOUR TURN</div>
+        <h2>Drop a VIBZ.<br><em>Start something.</em></h2>
+        <p class="create-sub">Start something people want to join.</p>
+        <div class="create-teaser">
+          <div class="teaser-stat"><strong>2.4k</strong><span>VIBZ launched today</span></div>
+          <div class="teaser-stat"><strong>∞</strong><span>conversations possible</span></div>
+        </div>
+      </div>
+      <div class="create-box">
+        <fieldset class="create-fieldset">
+          <legend class="sr-only">Create a new VIBZ</legend>
+
+          <label for="vibzTitle" class="create-label">Title <span class="required-mark">*</span></label>
+          <input id="vibzTitle" class="create-input" placeholder="What's worth gathering around?" aria-required="true" autocomplete="off">
+
+          <label class="create-label">Type</label>
+          <div class="tag-row" id="tagRow" role="group" aria-label="Select VIBZ type">
+            <button type="button" aria-pressed="true">Question</button>
+            <button type="button" aria-pressed="false">Idea</button>
+            <button type="button" aria-pressed="false">Plan</button>
+            <button type="button" aria-pressed="false">Challenge</button>
+          </div>
+
+          <label for="vibzPrompt" class="create-label">Prompt</label>
+          <input id="vibzPrompt" class="create-input" placeholder="Add a prompt that sparks participation...">
+
+          <label for="vibzCategory" class="create-label">Category</label>
+          <select id="vibzCategory" class="create-select" aria-label="VIBZ category">
+            <option value="Life">Life</option>
+            <option value="Tech">Tech</option>
+            <option value="Music">Music</option>
+            <option value="Travel">Travel</option>
+            <option value="Gaming">Gaming</option>
+            <option value="Design">Design</option>
+            <option value="AI">AI</option>
+            <option value="College">College</option>
+            <option value="Fitness">Fitness</option>
+            <option value="Movies">Movies</option>
+            <option value="Books">Books</option>
+            <option value="Ideas">Ideas</option>
+          </select>
+
+          <label for="vibzLocation" class="create-label">Location <span class="optional">(optional)</span></label>
+          <input id="vibzLocation" class="create-input" placeholder="Anywhere, or somewhere specific...">
+
+          <label for="vibzExpiry" class="create-label">Room closes in</label>
+          <select id="vibzExpiry" class="create-select" aria-label="VIBZ expiry time">
+            <option value="2h">2 hours</option>
+            <option value="6h">6 hours</option>
+            <option value="12h" selected>12 hours</option>
+            <option value="24h">24 hours</option>
+            <option value="48h">48 hours</option>
+            <option value="7d">7 days</option>
+          </select>
+
+          <button class="primary wide" id="launch" type="button">Launch VIBZ ✦</button>
+        </fieldset>
+      </div>
+    </section>
+  </div>
+
+</main>
+
+<footer class="site-footer" role="contentinfo">
+  <div><strong>VIBZ ✦</strong><span>Don't follow people. Follow the vibe.</span></div>
+  <span>Social, reimagined.</span>
+</footer>
+
+<!-- ═══════════════════════════════════════
+     ROOM MODAL (full-screen)
+════════════════════════════════════════ -->
+<div class="modal" id="roomModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" style="display:none">
+  <div class="modal-card">
+    <button class="close" id="closeRoom" aria-label="Close room and return to discover">‹ <span>Discover</span></button>
+    <div class="modal-label" id="modalLabel"></div>
+    <h2 id="modalTitle"></h2>
+    <p id="modalPrompt"></p>
+
+    <!-- Live participants -->
+    <div class="room-participants" id="roomParticipants">
+      <div class="participants-meta">
+        <span class="participants-count" id="participantsCount"></span>
+        <span class="participants-active" id="participantsActive"></span>
+        <span class="room-expiry-badge" id="roomExpiry"></span>
+      </div>
+      <div class="participants-avatars" id="participantsAvatars" role="list" aria-label="Room participants"></div>
+    </div>
+
+    <!-- Thought board (spatial) -->
+    <div class="room-board" id="roomBoard" aria-label="Thought board"></div>
+
+    <!-- Room reactions -->
+    <div class="room-reactions" id="roomReactions" aria-label="Room reactions">
+      <span class="reactions-label">React:</span>
+      <div class="reaction-btns" role="group" aria-label="React to this VIBZ">
+        <button class="reaction-btn" data-reaction="✦" data-ri="0" aria-label="Spark reaction">✦ <span class="r-count" id="rc0">0</span></button>
+        <button class="reaction-btn" data-reaction="❤️" data-ri="1" aria-label="Heart reaction">❤️ <span class="r-count" id="rc1">0</span></button>
+        <button class="reaction-btn" data-reaction="🔥" data-ri="2" aria-label="Fire reaction">🔥 <span class="r-count" id="rc2">0</span></button>
+        <button class="reaction-btn" data-reaction="💡" data-ri="3" aria-label="Idea reaction">💡 <span class="r-count" id="rc3">0</span></button>
+        <button class="reaction-btn" data-reaction="👀" data-ri="4" aria-label="Eyes reaction">👀 <span class="r-count" id="rc4">0</span></button>
+      </div>
+    </div>
+
+    <!-- Reply input -->
+    <div class="reply">
+      <label for="replyInput" class="sr-only">Add your thought to this VIBZ</label>
+      <input id="replyInput" placeholder="Add your thought..." autocomplete="off">
+      <button id="send" aria-label="Post thought to VIBZ">Release into VIBZ ↗</button>
+    </div>
+
+    <!-- Room action bar -->
+    <div class="room-actions-bar">
+      <button class="room-action-btn" id="shareRoom" aria-label="Share this VIBZ">Share VIBZ</button>
+      <button class="room-action-btn" id="saveRoom" aria-label="Save this VIBZ">Save VIBZ</button>
+      <button class="room-action-btn" id="inviteRoom" aria-label="Invite people to this VIBZ">Invite People</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PROFILE MODAL
+════════════════════════════════════════ -->
+<div class="modal-overlay" id="profileModal" role="dialog" aria-modal="true" aria-label="User profile" style="display:none">
+  <div class="profile-modal-card">
+    <button class="overlay-close" id="closeProfile" aria-label="Close profile">✕</button>
+    <div class="profile-header">
+      <div class="profile-avatar-large" id="profileAvatarLarge">KJ</div>
+      <div class="profile-info">
+        <h2 class="profile-name" id="profileName">Kevin</h2>
+        <p class="profile-bio" id="profileBio">What is your vibe, Kevin?</p>
+        <p class="profile-email" id="profileEmail">kevin@vibz.app</p>
+        <button class="outline small" id="editProfileBtn" aria-label="Edit your profile">Edit Profile</button>
+      </div>
+    </div>
+    <div class="profile-stats" aria-label="Profile statistics">
+      <div class="profile-stat">
+        <strong id="statJoined">12</strong>
+        <span>VIBZ joined</span>
+      </div>
+      <div class="profile-stat">
+        <strong id="statCreated">4</strong>
+        <span>VIBZ created</span>
+      </div>
+      <div class="profile-stat">
+        <strong id="statConnections">27</strong>
+        <span>connections</span>
+      </div>
+    </div>
+    <div class="profile-tabs" role="tablist" aria-label="Profile sections">
+      <button class="profile-tab active" data-ptab="recent" role="tab" aria-selected="true">Recent VIBZ</button>
+      <button class="profile-tab" data-ptab="pcreated" role="tab" aria-selected="false">Created</button>
+      <button class="profile-tab" data-ptab="psaved" role="tab" aria-selected="false">Saved</button>
+    </div>
+    <div id="profileContent" class="profile-vibz-grid" role="tabpanel"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     EDIT PROFILE MODAL
+════════════════════════════════════════ -->
+<div class="modal-overlay" id="editProfileModal" role="dialog" aria-modal="true" aria-label="Edit profile" style="display:none">
+  <div class="edit-profile-card">
+    <button class="overlay-close" id="closeEditProfile" aria-label="Close edit profile">✕</button>
+    <h3>Edit Profile</h3>
+    <label for="editName" class="create-label">Display Name</label>
+    <input id="editName" class="edit-input" placeholder="Your name..." autocomplete="name">
+    <label for="editBio" class="create-label">Bio</label>
+    <input id="editBio" class="edit-input" placeholder="Something about you...">
+    <label class="create-label">Interests</label>
+    <div class="interest-grid small" id="editInterestGrid" role="group" aria-label="Edit your interests"></div>
+    <button class="primary wide" id="saveProfileBtn" type="button">Save Profile</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     AUTH MODAL
+════════════════════════════════════════ -->
+<div class="modal-overlay auth-modal" id="authModal" role="dialog" aria-modal="true" aria-label="Login or register" style="display:none">
+  <div class="auth-card">
+    <button class="overlay-close" id="closeAuth" aria-label="Close login and register">✕</button>
+    <div class="auth-brand">VIBZ ✦</div>
+    <div class="auth-tabs" role="tablist" aria-label="Authentication tabs">
+      <button class="auth-tab active" data-auth-tab="login" role="tab" aria-selected="true">Login</button>
+      <button class="auth-tab" data-auth-tab="register" role="tab" aria-selected="false">Register</button>
+    </div>
+
+    <form id="loginForm" class="auth-form">
+      <label for="loginEmail" class="create-label">Email</label>
+      <input id="loginEmail" class="edit-input" type="email" placeholder="you@example.com" required>
+
+      <label for="loginPassword" class="create-label">Password</label>
+      <input id="loginPassword" class="edit-input" type="password" placeholder="Enter your password" required>
+
+      <button class="primary wide" type="submit">Log in</button>
+    </form>
+
+    <form id="registerForm" class="auth-form" style="display:none">
+      <label for="registerName" class="create-label">Your name</label>
+      <input id="registerName" class="edit-input" type="text" placeholder="Your name" required>
+
+      <label for="registerEmail" class="create-label">Email</label>
+      <input id="registerEmail" class="edit-input" type="email" placeholder="you@example.com" required>
+
+      <label for="registerPassword" class="create-label">Password</label>
+      <input id="registerPassword" class="edit-input" type="password" placeholder="Choose a password" required>
+
+      <button class="primary wide" type="submit">Create account</button>
+    </form>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     NOTIFICATIONS PANEL
+════════════════════════════════════════ -->
+<div class="notif-backdrop" id="notifBackdrop" aria-hidden="true"></div>
+<div class="notif-panel" id="notificationsPanel" role="dialog" aria-label="Notifications" style="display:none">
+  <div class="notif-panel-header">
+    <h3>Notifications</h3>
+    <button class="overlay-close small" id="closeNotif" aria-label="Close notifications">✕</button>
+  </div>
+  <div id="notifList" class="notif-list" role="list"></div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     INVITE MODAL
+════════════════════════════════════════ -->
+<div class="modal-overlay" id="inviteModal" role="dialog" aria-modal="true" aria-label="Invite people" style="display:none">
+  <div class="invite-card">
+    <button class="overlay-close" id="closeInvite" aria-label="Close invite modal">✕</button>
+    <h3>Invite People</h3>
+    <p class="invite-sub">Share this VIBZ with someone who'd want in.</p>
+    <div class="invite-url" id="inviteUrl" aria-label="VIBZ invite link">vibz.app/v/123</div>
+    <div class="invite-actions">
+      <button class="primary" id="copyInvite">Copy invite link</button>
+      <button class="ghost" id="closeInviteBtn">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     MINI PROFILE CARD (participant hover)
+════════════════════════════════════════ -->
+<div class="mini-profile" id="miniProfileCard" style="display:none" role="dialog" aria-label="Participant profile">
+  <button class="mini-profile-close" id="closeMiniProfile" aria-label="Close participant card">✕</button>
+  <div class="mini-profile-header">
+    <div class="mini-avatar" id="miniAvatar">M</div>
+    <div>
+      <strong class="mini-name" id="miniName">Mia</strong>
+      <span class="mini-status" id="miniStatus">Active now</span>
+    </div>
+  </div>
+  <p class="mini-thought" id="miniThought">"I keep planning instead of starting."</p>
+  <button class="connect-btn" id="miniConnectBtn" aria-label="Connect with this person">Connect</button>
+</div>
+
+<!-- ═══════════════════════════════════════
+     TOAST
+════════════════════════════════════════ -->
+<div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+<!-- ═══════════════════════════════════════
+     BOTTOM NAV (mobile only)
+════════════════════════════════════════ -->
+<nav class="bottom-nav" role="navigation" aria-label="Mobile bottom navigation">
+  <button class="bottom-nav-item" data-section="home" aria-label="Home">
+    <span class="bnav-icon" aria-hidden="true">🏠</span>
+    <span class="bnav-label">Home</span>
+  </button>
+  <button class="bottom-nav-item active" data-section="discover" aria-label="Discover">
+    <span class="bnav-icon" aria-hidden="true">🔍</span>
+    <span class="bnav-label">Discover</span>
+  </button>
+  <button class="bottom-nav-item bnav-create" data-section="create" aria-label="Create VIBZ">
+    <span class="bnav-icon create-dot" aria-hidden="true">✦</span>
+    <span class="bnav-label">Create</span>
+  </button>
+  <button class="bottom-nav-item" data-section="my-vibz" aria-label="My VIBZ">
+    <span class="bnav-icon" aria-hidden="true">📁</span>
+    <span class="bnav-label">My VIBZ</span>
+  </button>
+  <button class="bottom-nav-item" id="profileBnavBtn" aria-label="View profile">
+    <span class="bnav-icon bnav-avatar" aria-hidden="true">KJ</span>
+    <span class="bnav-label">Profile</span>
+  </button>
+</nav>
+
+<script src="script.js"></script>
+</body>
+</html>
